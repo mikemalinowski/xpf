@@ -1,6 +1,6 @@
 
 
-#Overview
+# Overview
 
 Xpf is an interface to perforce which offers the following benefits:
 
@@ -11,14 +11,14 @@ Xpf is an interface to perforce which offers the following benefits:
 * PyPi distribution making it easier for sharing tools with outsourcers
 
 
-#Installation
+# Installation
 
 Either download and place somewhere in your PYTHONPATH or install via pypi:
 
 ```pip install xpf```
 
 
-#Why not P4Python
+# Why not P4Python
 
 Perforce offers its own p4Python module which is a well established and
 stable library.
@@ -43,7 +43,7 @@ allows for tools to operate outside the main studio environment, and is made
 easier by xpf being freely accessible on PyPi.
 
 
-##Xpf Direct
+## Xpf Direct
 
 The library tries to make it easy to use for those that are used to utilising
 P4Python or the perforce command line. With that in mind you can utilise the
@@ -94,7 +94,7 @@ Using ```xpf.direct``` should feel very familiar to anyone who has utilised
 P4Python or the perforce commandline.
 
 
-##Xpf Assist
+## Xpf Assist
 
 Working at the ```xpf.direct``` level makes a lot of sense in a lot of
 situations, however there are various circumstances which call for multiple
@@ -135,7 +135,7 @@ xpf.assist.submit_files(
 ```
 
 
-##Xpf Variables
+## Xpf Variables
 
 Xpf works at a module level. It is not class based and it wraps the perforce
 command line. With this in mind it has some variables which are considered
@@ -175,7 +175,7 @@ xpf.variables.set_debug(True)
 ```
 
 
-##Failsafes
+## Failsafes
 
 One of the big advantages of xpf is that includes in-built failsafe mechanisms
 to protect functionality whenever the server is in-accessible. During the first
@@ -214,7 +214,7 @@ to give a rich user experience knowing that the tool will work even if its taken
 off-site.
 
 
-##Timeouts
+## Timeouts
 
 Xpf offers the ability to define a timeout on all perforce queries. By default
 this timeout is exposed through ```xpf.set_timeout(value)``` and is defaulted
@@ -244,7 +244,7 @@ string_dump = xof.direct.run('set', marshal=False)  # -- (Equivalent to p4 set)
 ```
 
 
-##Forms
+## Forms
 
 Forms are used in perforce to deliver multiple pieces of user input. When
 running perforce through the commandline this typically pops open a text
@@ -269,6 +269,6 @@ result = xpf.direct.changelist(
 ```
 
 
-#Compatibility
+# Compatibility
 
 Xpf has been tested under Python 2.7 and Python 3.7 on Windows.
