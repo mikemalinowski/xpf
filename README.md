@@ -1,5 +1,7 @@
 
+
 #Overview
+
 Xpf is an interface to perforce which offers the following benefits:
 
 * Pure python, no compiled dependencies (allow for use in Python 2, Python 3, Max, Maya & Motion Builder etc)
@@ -8,11 +10,13 @@ Xpf is an interface to perforce which offers the following benefits:
 
 * PyPi distribution making it easier for sharing tools with outsourcers
 
+
 #Installation
 
 Either download and place somewhere in your PYTHONPATH or install via pypi:
 
 ```pip install xpf```
+
 
 #Why not P4Python
 
@@ -40,6 +44,7 @@ easier by xpf being freely accessible on PyPi.
 
 
 ##Xpf Direct
+
 The library tries to make it easy to use for those that are used to utilising
 P4Python or the perforce command line. With that in mind you can utilise the
 the ```xpf.direct``` module which mimics the types of calls and interface of
@@ -90,6 +95,7 @@ P4Python or the perforce commandline.
 
 
 ##Xpf Assist
+
 Working at the ```xpf.direct``` level makes a lot of sense in a lot of
 situations, however there are various circumstances which call for multiple
 queries to be carried out in order to answer slightly higher level questions.
@@ -167,6 +173,8 @@ import xpf
 
 xpf.variables.set_debug(True)
 ```
+
+
 ##Failsafes
 
 One of the big advantages of xpf is that includes in-built failsafe mechanisms
@@ -234,6 +242,7 @@ shown here:
 ```python
 string_dump = xof.direct.run('set', marshal=False)  # -- (Equivalent to p4 set)
 ```
+
 
 ##Forms
 
