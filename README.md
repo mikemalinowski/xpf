@@ -272,4 +272,7 @@ result = xpf.direct.changelist(
 
 # Compatibility
 
-Xpf has been tested under Python 2.7 and Python 3.7 on Windows.
+Xpf has been tested under Python 2.7 and Python 3.7 on Windows and Ubuntu.
+
+Note: This module utilises the ```p4 set``` environment variables and expects
+at least P4PORT, P4USER and P4CLIENT to be defined. 
