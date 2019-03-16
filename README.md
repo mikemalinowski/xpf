@@ -66,12 +66,14 @@ xpf.direct.sync(
     ]
 )
 
-# -- Force sync, passing the usual perforce argument switches
+# -- Force sync, passing the usual perforce argument switches, but
+# -- define the client
 xpf.direct.sync(
     [
         '/usr/my_files/...'
     ],
     '-f',
+    client='my_client_name',
 )
 ```
 
@@ -264,7 +266,6 @@ result = xpf.direct.changelist(
         'Status': 'new',
         'Description': 'My New Changelist Description',
     },
-    **kwargs
 )
 ```
 
