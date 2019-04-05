@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='xpf',
-    version='1.0.0',
+    version='1.0.1',
     author='Mike Malinowski',
     author_email='mike@twisted.space',
     description='A python interface to interacting with p4 as a soft dependency',

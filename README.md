@@ -242,7 +242,7 @@ dictionaries you can set the marshaling to false on a per call basis as
 shown here:
 
 ```python
-string_dump = xof.direct.run('set', marshal=False)  # -- (Equivalent to p4 set)
+string_dump = xpf.direct.run('set', marshal=False)  # -- (Equivalent to p4 set)
 ```
 
 

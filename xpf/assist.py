@@ -121,8 +121,10 @@ def add_to_changelist(files, description='default', change_id=None):
     # -- Check if the file already exists in perforce, if it does
     # -- we edit, otherwise we add
     for file_path in files:
+        file_stat = direct.fstat(file_path)
+
         try:
-            if len(direct.fstat(file_path)):
+            if len(file_stat) and 'error' not in str(file_stat):
                 operations['edit'].append(file_path)
             else:
                 operations['add'].append(file_path)
@@ -218,32 +220,23 @@ def get_changelist(description, **kwargs):
         **kwargs
     )
 
-    # -- This can occur if the server is offline
-    if not current_changes:
-        return None
-
     # -- Cycle the results, and check whether the description matches
     # -- any of the found changelists
-    change_id = 0
     for change in current_changes:
         if description.lower().strip() == change['desc'].lower().strip():
             return int(change['change'])
 
     # -- If we do not have a pre-existing one, lets make one
-    if not change_id:
-        result = direct.changelist(
-            '-i',
-            form={
-                'Change': 'new',
-                'Status': 'new',
-                'Description': str(description),
-            },
-            **kwargs
-        )
-        return int(result[0]['data'].split()[1])
-
-    # -- Fallback, something has gone horribly wrong!
-    return None
+    result = direct.changelist(
+        '-i',
+        form={
+            'Change': 'new',
+            'Status': 'new',
+            'Description': str(description),
+        },
+        **kwargs
+    )
+    return int(result[0]['data'].split()[1])
 
 
 # ------------------------------------------------------------------------------
