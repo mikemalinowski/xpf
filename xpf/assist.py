@@ -102,7 +102,7 @@ def add_to_changelist(files, description='default', change_id=None):
     :return: the changelist id number which was added/used
     """
     if not isinstance(files, (list, tuple)):
-        files = files
+        files = [files]
 
     # -- If we're given a changelist description we need to make a change
     # -- list with that description if it does not already exist
@@ -121,10 +121,9 @@ def add_to_changelist(files, description='default', change_id=None):
     # -- Check if the file already exists in perforce, if it does
     # -- we edit, otherwise we add
     for file_path in files:
-        file_stat = direct.fstat(file_path)
-
+        test = direct.fstat(file_path)
         try:
-            if len(file_stat) and 'error' not in str(file_stat):
+            if len(test) and 'error' not in str(test):
                 operations['edit'].append(file_path)
             else:
                 operations['add'].append(file_path)
@@ -222,21 +221,31 @@ def get_changelist(description, **kwargs):
 
     # -- Cycle the results, and check whether the description matches
     # -- any of the found changelists
-    for change in current_changes:
-        if description.lower().strip() == change['desc'].lower().strip():
-            return int(change['change'])
+    change_id = 0
+
+    # -- This can occur if the server is offline
+    if current_changes:
+        for change in current_changes:
+            if 'desc' in change:
+                if description.lower().strip() == change['desc'].lower().strip():
+                    return int(change['change'])
 
     # -- If we do not have a pre-existing one, lets make one
-    result = direct.changelist(
-        '-i',
-        form={
-            'Change': 'new',
-            'Status': 'new',
-            'Description': str(description),
-        },
-        **kwargs
-    )
-    return int(result[0]['data'].split()[1])
+    if not change_id:
+        result = direct.changelist(
+            '-i',
+            form={
+                'Change': 'new',
+                'Status': 'new',
+                'Description': str(description),
+            },
+            **kwargs
+        )
+        if result:
+            return int(result[0]['data'].split()[1])
+
+    # -- Fallback, something has gone horribly wrong!
+    return None
 
 
 # ------------------------------------------------------------------------------
@@ -345,3 +354,26 @@ def submit_files(files, description=None):
         '-c',
         cl_number,
     )
+
+# ------------------------------------------------------------------------------
+@failsafe.return_false
+def is_editable(files):
+    """
+    Returns True if all the given files are editable. If any file is not
+    editable this will return False.
+
+    :param files: List of files to check, or single file
+    :type files: list(str, str, ...) or str
+
+    :return: bool
+    """
+    if not isinstance(files, (list, tuple)):
+        files = [files]
+
+    results = direct.fstat(files)
+
+    for file_results in results:
+        if 'action' not in file_results:
+            return False
+
+    return True

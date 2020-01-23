@@ -13,7 +13,7 @@ _SERVER_STATUS = -1
 
 # -- This is the maximum amount of time a single perforce call is allowed
 # -- to take before a default value is returned.
-_TIMEOUT = 1
+_TIMEOUT = 2
 
 # -- Stores the currently active user as defined by p4 set
 _USER = ''

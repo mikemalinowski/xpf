@@ -272,7 +272,7 @@ class ThreadedP4Call(threading.Thread):
                 while True:
                     records.append(
                         self._byte_dict_to_str_dict(
-                            marshal.loads(po.read())
+                            marshal.load(po)
                         )
                     )
 
