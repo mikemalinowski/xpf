@@ -4,6 +4,7 @@ This holds higher level functionality for common place behaviours.
 from . import direct
 from . import failsafe
 from . import variables
+from . import connection
 
 
 # ------------------------------------------------------------------------------
@@ -209,6 +210,12 @@ def get_changelist(description, **kwargs):
 
     :return: the changelist id number which was added/used
     """
+
+    # -- Because we're accessing the user, we need to check
+    # -- we have an active connection
+    if not connection.is_accessible():
+        return None
+
     # -- Execute our command
     current_changes = direct.changes(
         '-s',
@@ -257,6 +264,11 @@ def workspace_names():
 
     :return: list(str, str, ...) 
     """
+    # -- Because we're accessing the user, we need to check
+    # -- we have an active connection
+    if not connection.is_accessible():
+        return None
+
     client_data = direct.run(
         '-H',
         variables.get_host(),
