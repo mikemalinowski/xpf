@@ -147,7 +147,7 @@ def is_accessible(force=False):
     if server_status == -1 or force:
         initialise_variables()
 
-    return server_status
+    return variables.get_server_status()
 
 
 # ------------------------------------------------------------------------------

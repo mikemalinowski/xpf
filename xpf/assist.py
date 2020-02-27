@@ -1,6 +1,8 @@
 """
 This holds higher level functionality for common place behaviours. 
 """
+import os
+
 from . import direct
 from . import failsafe
 from . import variables
@@ -104,6 +106,11 @@ def add_to_changelist(files, description='default', change_id=None):
     """
     if not isinstance(files, (list, tuple)):
         files = [files]
+
+    # -- Reject if any of the files do not exist
+    for filepath in files:
+        if not os.path.exists(filepath):
+            return False
 
     # -- If we're given a changelist description we need to make a change
     # -- list with that description if it does not already exist
