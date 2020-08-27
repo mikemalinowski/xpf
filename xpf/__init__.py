@@ -260,5 +260,6 @@ Xpf has been tested under Python 2.7 and Python 3.7 on Windows.
 """
 from . import assist
 from . import direct
+from . import contexts
 from . import variables
 from . import connection

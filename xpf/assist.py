@@ -320,7 +320,7 @@ def changelist(filepath):
 
 # ------------------------------------------------------------------------------
 @failsafe.return_false
-def submit_files(files, description=None):
+def submit_files(files, description=None, change_id=None):
     """
     This will submit the given files under a changelist with the given
     description. If all the files are all already under the same changelist
@@ -340,16 +340,20 @@ def submit_files(files, description=None):
         does not exist.
     :type description: str
 
+    :param change_id: If given, this will override the changelist to
+        be used.
+    :type change_id: int
+
     :return: submission changelist number
     """
     if not isinstance(files, (list, tuple)):
         files = [files]
 
     # -- If all the files are in the same changelist, submit it
-    cl_number = changelist(files[0])
+    change_id = change_id or changelist(files[0])
 
     # -- Get a full list of files in the change list
-    cl_description = direct.describe(cl_number)[-1]
+    cl_description = direct.describe(change_id)[-1]
 
     local_files = [
         direct.where(depot_file)[0]['path']
@@ -371,7 +375,7 @@ def submit_files(files, description=None):
 
     return direct.submit(
         '-c',
-        cl_number,
+        change_id,
     )
 
 # ------------------------------------------------------------------------------
