@@ -60,6 +60,11 @@ def safe_run(*args, **kwargs):
         None
     )
 
+    user = kwargs.get(
+        'user',
+        None
+    )
+
     # -- Define our mandatory elements for the perforce command
     cmd = [
         'p4',
@@ -73,6 +78,9 @@ def safe_run(*args, **kwargs):
 
     if client:
         cmd.extend(['-c', client])
+
+    if user:
+        cmd.extend(['-u', user])
 
     # -- Now extend it with all the arguments coming into the
     # -- the function
@@ -195,13 +203,13 @@ def initialise_variables():
 
         k, v = item.split('=')
 
-        if k == 'P4CLIENT':
+        if k == 'P4CLIENT' and not variables.get_client():
             variables.set_client(v)
 
-        elif k == 'P4USER':
+        elif k == 'P4USER' and not variables.get_user():
             variables.set_user(v)
 
-        elif k == 'P4PORT':
+        elif k == 'P4PORT' and not variables.get_port():
             variables.set_port(v)
 
 
