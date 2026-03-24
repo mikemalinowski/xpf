@@ -113,3 +113,68 @@ class EditAndSubmit(object):
             self.files,
             change_id=self.change_id,
         )
+
+
+# ------------------------------------------------------------------------------
+class EditableFiles(object):
+    """
+    This will ensure any files are checked out on context enter and marked
+    for add on context exit.
+
+    :param files: Optional list of files to sync to, or a single filepath
+    :type files: list(str, str, ...) or str
+
+    :param description: The description to assign to the changelist if it
+        does not exist.
+    :type description: str
+
+    :param change_id: If given, this is the changelist which all the files
+        will be added to.
+    :type change_id: int
+
+    :param raise_on_failure: If True, then any file that could not be checked
+        out will raise an exception. If False they will be ignored.
+    :type raise_on_failure: bool
+
+    :param kwargs: Any additional arguments will be passed to all perforce
+        calls
+    :type kwargs: variable
+    """
+
+    # --------------------------------------------------------------------------
+    def __init__(self,
+                 files,
+                 description='default',
+                 change_id=None,
+                 raise_on_failure=False,
+                 **kwargs):
+
+        # -- Store the incoming variables
+        self.files = files
+        self.description = description
+        self.change_id = change_id
+        self.kwargs = kwargs
+
+    # --------------------------------------------------------------------------
+    def __enter__(self):
+        self._perforce_checkout()
+
+    # --------------------------------------------------------------------------
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self._perforce_checkout()
+
+    def _perforce_checkout(self):
+
+        # -- On enter we need to add the files to the change list
+        self.change_id = assist.add_to_changelist(
+            self.files,
+            self.description,
+            self.change_id,
+            **self.kwargs
+        )
+
+        # -- If we need to raise an exception on failure we need
+        # -- to check if any failures occurred.
+        if self.raise_on_failure:
+            if not assist.is_editable(self.files):
+                raise Exception('Not all files are editable')

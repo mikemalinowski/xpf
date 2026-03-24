@@ -230,6 +230,8 @@ def get_changelist(description, **kwargs):
         '-l',
         '-u',
         variables.get_user(),
+        '-c',
+        variables.get_client(),
         **kwargs
     )
 

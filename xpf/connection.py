@@ -57,12 +57,12 @@ def safe_run(*args, **kwargs):
 
     client = kwargs.get(
         'client',
-        None
+        variables.get_client(),
     )
 
     user = kwargs.get(
         'user',
-        None
+        variables.get_user(),
     )
 
     # -- Define our mandatory elements for the perforce command
